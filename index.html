@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=900, initial-scale=1.0">
+  <meta name="viewport" content="width=900, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mind Map Generator</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
   <style>
@@ -10,8 +10,8 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: #111;
-      color: #fff;
+      background: #E1E9DE;
+      color: #222;
       font-family: 'Poppins', Arial, sans-serif;
       min-height: 100vh;
     }
@@ -21,13 +21,24 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      background: #111;
+      background: #E1E9DE;
+    }
+    .container {
+      width: 100vw;
+      max-width: 950px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+      padding: 0 8px;
     }
     h1 {
       font-weight: 600;
       margin-top: 32px;
       margin-bottom: 12px;
       letter-spacing: 1px;
+      color: #1a2b1a;
+      text-align: center;
     }
     .mindmap-controls {
       display: flex;
@@ -35,11 +46,13 @@
       gap: 12px;
       margin-bottom: 24px;
       margin-top: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .mindmap-controls input[type="text"] {  
-      background: #222;
-      border: 1px solid #444;
-      color: #fff;
+      background: #fff;
+      border: 1px solid #b5c7b5;
+      color: #222;
       font-size: 1.1rem;
       padding: 10px 16px;
       border-radius: 6px;
@@ -49,27 +62,27 @@
       transition: border 0.2s;
     }
     .mindmap-controls input[type="text"]:focus {
-      border: 1.5px solid #fff;
+      border: 1.5px solid #1a2b1a;
     }
     .mindmap-controls button {
-      background: #181818;
+      background: #1a2b1a;
       color: #fff;
-      border: 1px solid #fff;
+      border: 1px solid #1a2b1a;
       border-radius: 6px;
       font-family: 'Poppins', Arial, sans-serif;
       font-size: 1.1rem;
       padding: 10px 22px;
       cursor: pointer;
-      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
       transition: background 0.2s, color 0.2s;
     }
     .mindmap-controls button:active {
-      background: #333;
+      background: #3a4b3a;
     }
     #mindmap-container {
-      background: #111;
+      background: #E1E9DE;
       border-radius: 18px;
-      box-shadow: 0 4px 32px 0 rgba(0,0,0,0.25);
+      box-shadow: 0 4px 32px 0 rgba(0,0,0,0.10);
       margin-bottom: 32px;
       margin-top: 0;
       display: flex;
@@ -78,13 +91,20 @@
       width: 900px;
       height: 900px;
       position: relative;
+      overflow: hidden;
+      max-width: 98vw;
+      max-height: 98vw;
     }
     #mindmap-canvas {
-      background: #111;
+      background: #E1E9DE;
       border-radius: 18px;
-      box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+      box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
       display: block;
       margin: 0 auto;
+      width: 900px;
+      height: 900px;
+      max-width: 98vw;
+      max-height: 98vw;
     }
     .error-message {
       color: #ff6b6b;
@@ -94,53 +114,53 @@
       text-align: center;
       letter-spacing: 0.2px;
     }
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      padding: 16px;
-      background: #121212;
-      color: white;
-      text-align: center;
-      font-weight: 500;
-      border: 2px solid white;
-      font-size: 14px;
-      width: max-content;
-      max-width: 140px;
-      word-wrap: break-word;
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      z-index: 2;
-    }
-    .circle:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-    }
     @media (max-width: 950px) {
       #mindmap-container, #mindmap-canvas {
-        width: 100vw;
-        height: 100vw;
+        width: 98vw;
+        height: 98vw;
         max-width: 98vw;
         max-height: 98vw;
+      }
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+        margin-top: 18px;
+      }
+      .mindmap-controls input[type=\"text\"] {
+        width: 98vw;
+        max-width: 98vw;
+      }
+      #mindmap-container, #mindmap-canvas {
+        width: 98vw;
+        height: 98vw;
+        min-width: 0;
+        min-height: 0;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Mind Map Generator</h1>
-  <div class="mindmap-controls">
-    <input type="text" id="topic-input" placeholder="Enter your topic..." maxlength="60" autocomplete="off">
-    <button id="generate-btn">Generate</button>
-    <button id="download-btn" disabled>Download</button>
-  </div>
-  <div class="error-message" id="error-message"></div>
-  <div id="mindmap-container">
-    <canvas id="mindmap-canvas" width="900" height="900"></canvas>
+  <div class="container">
+    <h1>Mind Map Generator</h1>
+    <div class="mindmap-controls">
+      <input type="text" id="topic-input" placeholder="Enter your topic..." maxlength="60" autocomplete="off">
+      <button id="generate-btn">Generate</button>
+      <button id="download-btn" disabled>Download</button>
+    </div>
+    <div class="error-message" id="error-message"></div>
+    <div id="mindmap-container">
+      <canvas id="mindmap-canvas" width="900" height="900"></canvas>
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-    const API_KEY = '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';
+    // --- CONFIG ---
+    const API_KEY = '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';
     const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
     const MODEL = 'deepseek/deepseek-chat';
+
+    // --- DOM ---
     const canvas = document.getElementById('mindmap-canvas');
     const ctx = canvas.getContext('2d');
     const generateBtn = document.getElementById('generate-btn');
@@ -149,47 +169,74 @@
     const errorMessage = document.getElementById('error-message');
     let lastMapData = null;
 
+    // --- UTILS ---
     function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-
     function showError(msg) {
       errorMessage.textContent = msg;
     }
-
     function clearError() {
       errorMessage.textContent = '';
     }
-
-    function measureNodeSize(text, baseW, baseH, font, padding = 18, minW = 48, minH = 32, maxW = 260, maxH = 120) {
+    // Robust text wrapping for canvas
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight, font) {
       ctx.save();
       ctx.font = font;
-      const lines = text.split(' ');
-      let maxLine = '';
+      let words = text.split(' ');
       let line = '';
-      for (let i = 0; i < lines.length; i++) {
-        let testLine = line + lines[i] + ' ';
-        if (ctx.measureText(testLine).width > maxW && i > 0) {
-          if (ctx.measureText(line).width > ctx.measureText(maxLine).width) maxLine = line;
-          line = lines[i] + ' ';
+      let lines = [];
+      for (let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + ' ';
+        let metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          lines.push(line.trim());
+          line = words[n] + ' ';
         } else {
           line = testLine;
         }
       }
-      if (ctx.measureText(line).width > ctx.measureText(maxLine).width) maxLine = line;
-      const textW = Math.min(ctx.measureText(maxLine).width + padding * 2, maxW);
-      const textH = Math.min((Math.ceil((ctx.measureText(text).width / maxW) + 1) * baseH) + padding, maxH);
+      lines.push(line.trim());
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + i * lineHeight, maxWidth);
+      }
       ctx.restore();
-      return { w: Math.max(textW, minW), h: Math.max(textH, minH) };
+      return lines.length;
     }
 
+    // --- NODE SIZING ---
+    function measureNodeSize(text, baseW, baseH, font, padding = 18, minW = 48, minH = 32, maxW = 260, maxH = 120) {
+      ctx.save();
+      ctx.font = font;
+      let words = text.split(' ');
+      let line = '';
+      let maxLine = '';
+      let lines = [];
+      for (let i = 0; i < words.length; i++) {
+        let testLine = line + words[i] + ' ';
+        if (ctx.measureText(testLine).width > maxW && i > 0) {
+          lines.push(line.trim());
+          if (ctx.measureText(line).width > ctx.measureText(maxLine).width) maxLine = line;
+          line = words[i] + ' ';
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push(line.trim());
+      if (ctx.measureText(line).width > ctx.measureText(maxLine).width) maxLine = line;
+      const textW = Math.min(ctx.measureText(maxLine).width + padding * 2, maxW);
+      const textH = Math.min((lines.length * baseH) + padding, maxH);
+      ctx.restore();
+      return { w: Math.max(textW, minW), h: Math.max(textH, minH), lines: lines.length };
+    }
+
+    // --- DRAWING ---
     function drawNode(x, y, w, h, fill, shadowAlpha=0.18, borderRadius=32) {
       ctx.save();
       ctx.beginPath();
       if (w === h) {
         ctx.arc(x, y, w/2, 0, Math.PI*2);
       } else {
-        // Draw oval/rect with borderRadius
         ctx.moveTo(x - w/2 + borderRadius, y - h/2);
         ctx.lineTo(x + w/2 - borderRadius, y - h/2);
         ctx.quadraticCurveTo(x + w/2, y - h/2, x + w/2, y - h/2 + borderRadius);
@@ -204,13 +251,12 @@
       ctx.shadowColor = `rgba(0,0,0,${shadowAlpha})`;
       ctx.shadowBlur = 16;
       ctx.fillStyle = fill;
-      ctx.strokeStyle = '#fff';
+      ctx.strokeStyle = '#1a2b1a';
       ctx.lineWidth = 2.2;
       ctx.fill();
       ctx.stroke();
       ctx.restore();
     }
-
     function drawCurvedLine(x1, y1, x2, y2, curve = 0.18) {
       ctx.save();
       ctx.beginPath();
@@ -218,11 +264,14 @@
       const my = (y1 + y2) / 2;
       const dx = x2 - x1;
       const dy = y2 - y1;
-      // Perpendicular offset for curve
       const nx = -dy * curve;
       const ny = dx * curve;
       ctx.moveTo(x1, y1);
       ctx.quadraticCurveTo(mx + nx, my + ny, x2, y2);
+      ctx.strokeStyle = 'rgba(26,43,26,0.85)';
+      ctx.lineWidth = 2.2;
+      ctx.shadowColor = 'rgba(0,0,0,0.10)';
+      ctx.shadowBlur = 6;
       ctx.stroke();
       ctx.restore();
     }
@@ -235,44 +284,36 @@
       const w = canvas.width;
       const h = canvas.height;
       const center = { x: w/2, y: h/2 };
-      // --- Node sizes and dynamic scaling ---
       let centerFont = 22, headingFont = 15, subFont = 11;
       let centerPad = 24, headingPad = 18, subPad = 14;
       let maxNodeW = 260, maxNodeH = 120;
       let fits = false, attempts = 0;
       let headingCircleDist, subCircleDist;
       let centerSize, headingSizes, subSizes, headingAngles, headingCenters, allSubCenters;
-      // Diagonal, even heading distribution (30° offset)
-      const headingBaseAngle = Math.PI/6; // 30°
-      // Try to fit everything, reducing font/padding if needed
+      const headingBaseAngle = Math.PI/6;
       while (!fits && attempts < 10) {
         ctx.font = `600 ${centerFont}px Poppins, Arial, sans-serif`;
         centerSize = measureNodeSize(topic, 120, 48, ctx.font, centerPad, 68, 48, maxNodeW, maxNodeH);
         ctx.font = `600 ${headingFont}px Poppins, Arial, sans-serif`;
         headingSizes = data.map(item => {
-          // Reduce font for long headings
           let f = headingFont - Math.min(3, Math.floor(item.heading.length/16));
           let p = headingPad - Math.min(6, Math.floor(item.heading.length/18));
           return measureNodeSize(item.heading, 90, 38, `600 ${f}px Poppins, Arial, sans-serif`, p, 44, 28, 200, 80);
         });
         ctx.font = `400 ${subFont}px Poppins, Arial, sans-serif`;
         subSizes = data.map(item => item.subpoints.map(sub => {
-          // Reduce font for long subpoints
           let f = subFont - Math.min(2, Math.floor(sub.length/18));
           let p = subPad - Math.min(5, Math.floor(sub.length/20));
           return measureNodeSize(sub, 60, 28, `400 ${f}px Poppins, Arial, sans-serif`, p, 32, 18, 160, 60);
         }));
-        // Layout radii
         let maxHeadingH = Math.max(...headingSizes.map(s => s.h));
         let maxSubH = Math.max(...subSizes.flat().map(s => s.h));
-        headingCircleDist = 220 + centerSize.h/2; // Shorter lines for headings
-        subCircleDist = 70 + maxHeadingH/2; // Shorter lines for subpoints
-        // Place headings (diagonal, even)
+        headingCircleDist = 220 + centerSize.h/2;
+        subCircleDist = 70 + maxHeadingH/2;
         headingAngles = [];
         for (let i = 0; i < 6; i++) headingAngles.push((Math.PI * 2 / 6) * i - Math.PI/2 + headingBaseAngle);
         headingCenters = headingAngles.map((angle, i) => {
           let r = headingCircleDist;
-          // Move left/right headings (angles closest to 0° and 180°) farther out by 18px
           const deg = ((angle * 180) / Math.PI + 360) % 360;
           if (deg < 30 || deg > 330 || (deg > 150 && deg < 210)) {
             r += 18;
@@ -282,22 +323,18 @@
             y: Math.min(Math.max(center.y + Math.sin(angle) * r, headingSizes[i].h/2), h - headingSizes[i].h/2)
           };
         });
-        // Place subpoints with smart arc spacing
         allSubCenters = headingCenters.map((hc, i) => {
           const baseAngle = headingAngles[i];
-          // Spread subpoints wider for outer headings
           const arcSpread = Math.PI/2.2;
           const subAngles = [-arcSpread/2, 0, arcSpread/2];
           return subAngles.map((offset, j) => {
             let r = subCircleDist + subSizes[i][j].h/2;
             let angle = baseAngle + offset;
-            // Clamp positions to container
             let x = Math.min(Math.max(hc.x + Math.cos(angle) * r, subSizes[i][j].w/2), w - subSizes[i][j].w/2);
             let y = Math.min(Math.max(hc.y + Math.sin(angle) * r, subSizes[i][j].h/2), h - subSizes[i][j].h/2);
             return { x, y };
           });
         });
-        // Check bounds for all nodes
         let allNodes = [
           {x: center.x, y: center.y, w: centerSize.w, h: centerSize.h},
           ...headingCenters.map((hc, i) => ({x: hc.x, y: hc.y, w: headingSizes[i].w, h: headingSizes[i].h})),
@@ -308,7 +345,6 @@
           node.y - node.h/2 >= 0 && node.y + node.h/2 <= h
         );
         if (!fits) {
-          // Reduce font and padding slightly and try again
           centerFont = Math.max(14, centerFont - 2);
           headingFont = Math.max(10, headingFont - 1);
           subFont = Math.max(7, subFont - 1);
@@ -320,47 +356,41 @@
         }
         attempts++;
       }
-      // --- Draw lines first ---
       ctx.save();
-      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+      ctx.strokeStyle = 'rgba(26,43,26,0.85)';
       ctx.lineWidth = 2.2;
-      ctx.shadowColor = 'rgba(0,0,0,0.18)';
+      ctx.shadowColor = 'rgba(0,0,0,0.10)';
       ctx.shadowBlur = 6;
-      // Center to heading (curved)
       headingCenters.forEach((hc, i) => {
         drawCurvedLine(center.x, center.y, hc.x, hc.y, 0.18);
       });
-      // Heading to subpoints (curved)
       headingCenters.forEach((hc, i) => {
         allSubCenters[i].forEach(sc => {
           drawCurvedLine(hc.x, hc.y, sc.x, sc.y, 0.22);
         });
       });
       ctx.restore();
-      // --- Draw nodes (center, headings, subpoints) ---
-      // Center node
-      drawNode(center.x, center.y, centerSize.w, centerSize.h, '#121212', 0.18, 36);
-      ctx.fillStyle = '#fff';
+      drawNode(center.x, center.y, centerSize.w, centerSize.h, '#fff', 0.18, 36);
+      ctx.fillStyle = '#1a2b1a';
       ctx.font = `600 ${centerFont}px Poppins, Arial, sans-serif`;
-      ctx.fillText(topic, center.x, center.y, centerSize.w * 0.9);
-      // Headings
+      wrapText(ctx, topic, center.x, center.y - ((centerSize.lines-1)*centerFont/2), centerSize.w * 0.9, centerFont+2, ctx.font);
       data.forEach((item, i) => {
         const hc = headingCenters[i];
-        drawNode(hc.x, hc.y, headingSizes[i].w, headingSizes[i].h, '#121212', 0.16, 28);
-        ctx.fillStyle = '#fff';
+        drawNode(hc.x, hc.y, headingSizes[i].w, headingSizes[i].h, '#fff', 0.16, 28);
+        ctx.fillStyle = '#1a2b1a';
         ctx.font = `600 ${headingFont - Math.min(3, Math.floor(item.heading.length/16))}px Poppins, Arial, sans-serif`;
-        ctx.fillText(item.heading, hc.x, hc.y, headingSizes[i].w * 0.9);
-        // Subpoints
+        wrapText(ctx, item.heading, hc.x, hc.y - ((headingSizes[i].lines-1)*(headingFont+1)/2), headingSizes[i].w * 0.9, headingFont+1, ctx.font);
         allSubCenters[i].forEach((sc, j) => {
-          drawNode(sc.x, sc.y, subSizes[i][j].w, subSizes[i][j].h, '#121212', 0.12, 18);
-          ctx.fillStyle = '#fff';
+          drawNode(sc.x, sc.y, subSizes[i][j].w, subSizes[i][j].h, '#fff', 0.12, 18);
+          ctx.fillStyle = '#1a2b1a';
           ctx.font = `400 ${subFont - Math.min(2, Math.floor(item.subpoints[j].length/18))}px Poppins, Arial, sans-serif`;
-          ctx.fillText(item.subpoints[j], sc.x, sc.y, subSizes[i][j].w * 0.9);
+          wrapText(ctx, item.subpoints[j], sc.x, sc.y - ((subSizes[i][j].lines-1)*(subFont+1)/2), subSizes[i][j].w * 0.9, subFont+1, ctx.font);
         });
       });
       ctx.restore();
     }
 
+    // --- API ---
     async function fetchMindMap(topic, retry = true) {
       const prompt = `Create a structured mind map on the topic: '${topic}' with 6 headings and 3 short subpoints each. Return only JSON: [ { heading: '', subpoints: ['', '', ''] }, ... ]`;
       try {
@@ -384,7 +414,6 @@
         if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
           throw new Error('Malformed API response');
         }
-        // Try to extract JSON from response
         let content = data.choices[0].message.content;
         let jsonStart = content.indexOf('[');
         let jsonEnd = content.lastIndexOf(']');
@@ -396,20 +425,19 @@
         } catch (e) {
           throw new Error('Failed to parse JSON');
         }
-        // Validate structure
         if (!Array.isArray(parsed) || parsed.length !== 6 || !parsed.every(obj => obj.heading && Array.isArray(obj.subpoints) && obj.subpoints.length === 3)) {
           throw new Error('Malformed mind map structure');
         }
         return parsed;
       } catch (err) {
         if (retry) {
-          // Retry once
           return await fetchMindMap(topic, false);
         }
         throw err;
       }
     }
 
+    // --- EVENTS ---
     generateBtn.addEventListener('click', async () => {
       const topic = topicInput.value.trim();
       if (!topic) {
@@ -422,7 +450,7 @@
       clearCanvas();
       ctx.save();
       ctx.font = '600 28px Poppins, Arial, sans-serif';
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = '#1a2b1a';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.globalAlpha = 0.7;
@@ -448,7 +476,6 @@
     });
 
     downloadBtn.addEventListener('click', () => {
-      // Use html2canvas to capture the canvas and download as PNG
       html2canvas(canvas, {
         backgroundColor: null,
         useCORS: true,
@@ -461,11 +488,11 @@
       });
     });
 
-    // Initial state
+    // --- INITIAL STATE ---
     clearCanvas();
     ctx.save();
     ctx.font = '600 28px Poppins, Arial, sans-serif';
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#1a2b1a';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.globalAlpha = 0.7;
@@ -473,4 +500,4 @@
     ctx.restore();
   </script>
 </body>
-</html> 
+</html>
